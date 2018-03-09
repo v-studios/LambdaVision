@@ -1,1 +1,8 @@
 README.html
+/lambdavision/Cython/
+/lambdavision/PIL/
+/lambdavision/cython.py
+/lambdavision/easy-install.pth
+/lambdavision/pyximport/
+/lambdavision/torch/
+/lambdavision/torchvision/
