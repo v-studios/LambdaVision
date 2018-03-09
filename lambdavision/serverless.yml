@@ -1,0 +1,66 @@
+service: lambdavision
+
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+# frameworkVersion: "=X.X.X"
+
+provider:
+  name: aws
+  runtime: python3.6
+  stage: dev
+  region: us-east-1
+  # Memory drives CPU cores: for chris-linen-suit-hat-face.jpg, Max Memory Used: 227-229MB
+  # We clock the first time through when it has to download the trained model.
+  # Looks like 2048MB RAM gives best time/cost performance, probably gets second core.
+  #memorySize:  512              # Billed Duration: 27900 ms
+  #memorySize: 1024              # Billed Duration: 13500 ms
+  memorySize:  2048              # Billed Duration:  8200 ms
+  #memorySize: 3008              # Billed Duration:  8200 ms
+  timeout: 30
+  iamRoleStatements:
+    - Effect: Allow
+      Resource: arn:aws:s3:::chris-lambdavision/*
+      Action:
+        - s3:GetObject
+
+
+# We can't use "sls deploy --function lambdavision" because the ZIP, including
+# the binary packages, is too big; use "sls deploy" to do the whole thing.
+# OUTPUT:
+#   model_output=Variable containing:
+#   3.0710  2.9791  3.1869  ...   0.6295  1.8174  4.6874
+#   [torch.FloatTensor of size 1x1000]
+
+functions:
+  lambdavision:
+    handler: lambdavision.s3upload
+    events:
+      - s3:
+          bucket: chris-lambdavision
+          event: s3:ObjectCreated:*
+             
+# We want to include all the compiled pytorch stuff, so include everything
+package:
+ exclude:
+   - pip/**
+   - pkg_resources/**
+   - setuptools/**
+   - wheel/**
+   - yaml/**
+   - easy_install.py
+   - __pycache__/**
+   - "*.dist-info/**"
+   - "*.egg-info/**"
+
+# looks like I need easy-install.pth for lambda to find numpy-*.egg
+#   - easy-install.*
+# So what I should *include*:
+# Cython
+# PIL
+# cython.py
+# easy-install.pth
+# numpy-*.egg
+# lambdavision.py
+# pyximport/
+# torch/
+# torchvision
