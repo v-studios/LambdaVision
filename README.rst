@@ -96,11 +96,14 @@ and human friendly class name.
 
 We can use the AWS CLI to upload a picture to S3::
 
-  s3 cp ~/Downloads/squirrel.jpg    s3://chris-lambdavision/
+  s3 cp ~/Downloads/squirrel.jpeg    s3://chris-lambdavision/
 
 and watch what it reports in the tailed logs::
 
-  score=9.418614387512207 classid=335 imagenet human=fox squirrel, eastern fox squirrel, Sciurus niger
+  score=11.207955360412598 classid=335 imagenet human=fox squirrel, eastern fox squirrel, Sciurus niger
+
+.. image:: squirrel.jpeg
+
 
 If upload a picture of myself wearing a big white hat and it says::
 
