@@ -94,16 +94,30 @@ played with PyTorch or tensors before so it took me a while to figure
 out how to index the best score, but now it displays the score, index,
 and human friendly class name.
 
-I upload a picture of myself wearing a big white hat and it says::
+We can use the AWS CLI to upload a picture to S3::
 
-  score=9 imagenet classid=515 human=cowboy hat, ten-gallon hat
+  s3 cp ~/Downloads/squirrel.jpg    s3://chris-lambdavision/
 
-I upload a picture of an audio tape cassette found on the net and it says::
+and watch what it reports in the tailed logs::
 
-  score=13 imagenet classid=481 human=cassette
+  score=9.418614387512207 classid=335 imagenet human=fox squirrel, eastern fox squirrel, Sciurus niger
 
-It took about 3 seconds of Lambda-time to report this. It's not
-`AWS Rekognition <https://aws.amazon.com/rekognition/>`_ but it works.
+If upload a picture of myself wearing a big white hat and it says::
+
+  score=9.719132423400879 classid=515 imagenet human=cowboy hat, ten-gallon hat
+
+I can upload a picture of an audio tape cassette found on the net and it says::
+
+  score=13.65023136138916 classid=481 imagenet human=cassette
+
+It took about 8 seconds of Lambda-time to do this::
+
+  REPORT RequestId: bd4c7ded-23cb-11e8-ba21-2116960e04ca
+  Duration: 8073.79 ms	Billed Duration: 8100 ms
+  Memory Size: 2048 MB	Max Memory Used: 276 MB
+
+It's not `AWS Rekognition <https://aws.amazon.com/rekognition/>`_ but
+it works.
 
 Our future work will require training models based on specific and
 unusual subject matter which our client deems sensitive, so
