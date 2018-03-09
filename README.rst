@@ -15,7 +15,7 @@ Building Prerequisites: Makefile, Docker
 
 In the post, Michael uses a script to build `PyTorch
 <http://pytorch.org/>`_ and its prerequisites, some of which are
-C-based. Those compiling on a Lambda-compatible machine. I
+C-based. Those require compilation on a Lambda-compatible machine. I
 wanted something a bit more automated, so I've turned that build into
 a `Makefile <Makefile>`_ which builds inside the enormously useful
 `lambci docker image <https://github.com/lambci/docker-lambda>`_.
